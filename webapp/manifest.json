@@ -1,0 +1,156 @@
+{
+  "_version": "1.84.0",
+  "sap.app": {
+    "id": "test.t1.test.inventory",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.24.0",
+      "toolsId": "4a656c8c-4242-415f-b3b3-b1d4575c92d2"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZGWD1MM0006_SRV_01/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.148.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {},
+        "sap.tnt": {},
+        "sap.ui.vk": {
+          "lazy": true
+        },
+        "sap.suite.ui.microchart": {
+          "lazy": false
+        }
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "test.t1.test.inventory.i18n.i18n",
+          "supportedLocales": [
+            "",
+            "en"
+          ],
+          "fallbackLocale": ""
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.f.routing.Router",
+        "controlAggregation": "beginColumnPages",
+        "controlId": "layout",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "test.t1.test.inventory.view",
+        "async": true,
+        "viewPath": "test.t1.test.inventory.view"
+      },
+      "routes": [
+        {
+          "name": "RouteMain",
+          "pattern": ":?query:",
+          "target": [
+            "TargetMain"
+          ]
+        },
+        {
+          "name": "RouteTank",
+          "pattern": "plant/{werks}",
+          "target": [
+            "TargetTank"
+          ]
+        },
+        {
+          "name": "RouteTankDetail",
+          "pattern": "plant/{werks}/tank/{lgort}",
+          "target": [
+            "TargetTankDetail"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetMain": {
+          "id": "Main",
+          "name": "Main",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 1
+        },
+        "TargetTank": {
+          "id": "Tank",
+          "name": "Tank",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 2
+        },
+        "TargetTankDetail": {
+          "id": "TankDetail",
+          "name": "TankDetail",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 3
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "test.t1.test.inventory.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

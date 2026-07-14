@@ -1,0 +1,27 @@
+﻿node_modules/
+dist/
+.scp/
+.env
+Makefile*.mta
+mta_archives
+mta-*
+resources
+archive.zip
+.*_mta_build_tmp
+
+# Codex managed ignores
+coverage/
+.ui5/
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+

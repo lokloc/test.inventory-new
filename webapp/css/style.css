@@ -1,0 +1,843 @@
+html, body, body > div, #container, #container-uiarea,
+.sapUiView, .sapFFCL, .sapFFCLColumn, .sapFFCLColumnBegin {
+    height: 100%;
+}
+
+.tankPageContent {
+    max-width: 100%;
+}
+
+.tankToolPageRoot.sapTntToolPage {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.tankToolPageRoot .sapTntToolHeader {
+    position: relative;
+    z-index: 12;
+    flex: 0 0 auto;
+    pointer-events: auto;
+}
+
+.tankToolPageRoot .sapTntToolPageContent {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.tankToolPageRoot .sapTntToolPageAside,
+.tankToolPageRoot .sapTntSideContent {
+    position: relative;
+    z-index: 20;
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    pointer-events: auto;
+    isolation: isolate;
+}
+
+.tankToolPageRoot .sapTntToolPageMain,
+.tankToolPageRoot .sapTntMainContent {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    pointer-events: auto;
+}
+
+.sapFFCLColumnBegin > .sapUiView,
+.sapFFCLColumnBegin .tankToolPageRoot {
+    height: 100%;
+    width: 100%;
+}
+
+.tankToolPageRoot .sapTntNavLI,
+.tankToolPageRoot .sapTntNavLIItem {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.tankToolPageRoot .sapMPage {
+    height: 100%;
+    min-height: 0;
+}
+
+.tankToolPageRoot .sapMPage > section {
+    overflow: auto;
+}
+
+.tankKpiCard {
+    background: var(--sapTile_Background, var(--sapGroup_ContentBackground, #fff));
+    border: 1px solid var(--sapTile_BorderColor, var(--sapGroup_ContentBorderColor, #bcc3ca));
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    min-width: 10rem;
+}
+
+.tankPlantHeaderSection {
+    width: 100%;
+    gap: 0.35rem;
+}
+
+.tankPlantHeaderBlock {
+    margin-bottom: 0.15rem;
+}
+
+.tankPlantTitle {
+    margin: 0;
+}
+
+.tankPlantLocation {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.875rem;
+    line-height: 1.35;
+}
+
+.tankZoneDonutRow {
+    gap: 1rem;
+    width: 100%;
+}
+
+.tankZoneDonutCard {
+    flex: 1 1 16rem;
+    min-width: 16rem;
+    background: var(--sapTile_Background, var(--sapGroup_ContentBackground, #fff));
+    border: 1px solid var(--sapTile_BorderColor, var(--sapGroup_ContentBorderColor, #bcc3ca));
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem 0.65rem;
+    box-sizing: border-box;
+    box-shadow: var(--sapContent_Shadow0, 0 0 0.125rem 0 rgba(34, 53, 72, 0.15));
+}
+
+.tankZoneDonutTitle {
+    margin: 0;
+    font-weight: 600;
+}
+
+.tankZoneDonutSub {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.8125rem;
+}
+
+.tankZoneDonutFlex {
+    min-height: 11rem;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    contain: layout paint;
+}
+
+.tankZoneDonutFlex .sapSuiteUiMicroChartDonut,
+.tankZoneDonutFlex .sapSuiteUiMicroChartInteractiveDonut,
+.tankZoneDonutFlex .sapSuiteIDC {
+    pointer-events: none !important;
+    max-width: 100%;
+}
+
+.tankMapCanvas {
+    --tank-zone-block-height: 21rem;
+    background: linear-gradient(180deg, #edf3fa 0%, #f7f9fb 100%);
+    border: 1px solid var(--sapGroup_ContentBorderColor);
+    border-radius: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem;
+    max-height: calc(var(--tank-zone-block-height) + 1.5rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.tankMapZones {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .tankMapZones {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .tankMapZones {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tankZoneBlock {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px dashed var(--sapGroup_ContentBorderColor);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    min-height: 21rem;
+    box-sizing: border-box;
+}
+
+.tankZoneRange {
+    font-size: 0.7rem;
+    color: var(--sapContent_LabelColor);
+    margin-top: 0.15rem;
+}
+
+.tankZoneRow {
+    min-height: 3.55rem;
+    margin-bottom: 0.25rem;
+}
+
+.tankMapItem {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 14.28%;
+    padding: 0.1rem 0;
+}
+
+.tankMapItemClickable {
+    cursor: pointer;
+}
+
+.tankMapItemClickable:hover .tankMapLabel {
+    color: var(--sapLinkColor);
+}
+
+.tankMapItemClickable:hover .tankMapIconClickable {
+    transform: translateY(-1px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.22));
+}
+
+.tankMapIconClickable {
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.tankMapItem .sapUiHtml {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.tankIconWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.16));
+}
+
+.tankSvgIcon {
+    width: 1.75rem;
+    height: 2.05rem;
+    display: block;
+}
+
+.tankLegendIconWrap {
+    width: 1.55rem;
+    min-height: 1.85rem;
+    margin-right: 0.15rem;
+}
+
+.tankLegendSvgIcon {
+    width: 1.45rem;
+    height: 1.7rem;
+}
+
+.tankCylinder,
+.tankHtmlCylinder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+}
+
+.tankCylinderCap {
+    width: 1.55rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    margin-bottom: -0.2rem;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    box-shadow:
+        inset 0 -2px 4px rgba(0, 0, 0, 0.12),
+        inset 0 1px 2px rgba(255, 255, 255, 0.35),
+        0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.tankCylinderCap::before {
+    content: "";
+    position: absolute;
+    top: 14%;
+    left: 20%;
+    width: 36%;
+    height: 38%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 72%);
+    pointer-events: none;
+}
+
+.tankCylinderBody {
+    width: 1.36rem;
+    height: 1.58rem;
+    border-radius: 10% 10% 30% 30% / 8% 8% 24% 24%;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        inset -5px 0 10px rgba(0, 0, 0, 0.14),
+        inset 4px 0 8px rgba(255, 255, 255, 0.22),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.tankCylinderBody::before {
+    content: "";
+    position: absolute;
+    top: 5%;
+    left: 11%;
+    width: 26%;
+    height: 78%;
+    border-radius: 45%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.06) 100%);
+    pointer-events: none;
+}
+
+.tankCylinderBody::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 8%;
+    right: 8%;
+    height: 16%;
+    border-radius: 0 0 45% 45%;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.14) 100%);
+    pointer-events: none;
+}
+
+.tankLegendCylinder {
+    width: 1.45rem;
+    min-height: 1.86rem;
+    margin-right: 0.15rem;
+}
+
+.tankLegendCylinder .tankCylinderCap {
+    width: 1.2rem;
+    height: 0.36rem;
+    margin-bottom: -0.12rem;
+}
+
+.tankLegendCylinder .tankCylinderBody {
+    width: 1.05rem;
+    height: 1.18rem;
+}
+
+.tankHtmlCylinder[data-status="E"] .tankCylinderCap,
+.tankCylinderCap[data-status="E"],
+.tankCylinder--E .tankCylinderCap {
+    background: linear-gradient(180deg, #E2E5E9 0%, #D0D5DB 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="E"] .tankCylinderBody,
+.tankCylinderBody[data-status="E"],
+.tankCylinder--E .tankCylinderBody {
+    background: linear-gradient(90deg, #BFC5CC 0%, #CDD2D8 40%, #B0B6BE 100%) !important;
+}
+
+.tankIconWrap[data-status="A"],
+.tankHtmlCylinder[data-status="A"] .tankCylinderBody,
+.tankCylinderBody[data-status="A"],
+.tankCylinder--A .tankCylinderBody {
+    --tank-status-color: #2E7D32;
+}
+
+.tankIconWrap[data-status="I"],
+.tankHtmlCylinder[data-status="I"] .tankCylinderBody,
+.tankCylinderBody[data-status="I"],
+.tankCylinder--I .tankCylinderBody {
+    --tank-status-color: #1976D2;
+}
+
+.tankIconWrap[data-status="P"],
+.tankHtmlCylinder[data-status="P"] .tankCylinderBody,
+.tankCylinderBody[data-status="P"],
+.tankCylinder--P .tankCylinderBody {
+    --tank-status-color: #EF6C00;
+}
+
+.tankIconWrap[data-status="F"],
+.tankHtmlCylinder[data-status="F"] .tankCylinderBody,
+.tankCylinderBody[data-status="F"],
+.tankCylinder--F .tankCylinderBody {
+    --tank-status-color: #D32F2F;
+}
+
+.tankIconWrap[data-status="R"],
+.tankHtmlCylinder[data-status="R"] .tankCylinderBody,
+.tankCylinderBody[data-status="R"],
+.tankCylinder--R .tankCylinderBody {
+    --tank-status-color: #6A1B9A;
+}
+
+.tankHtmlCylinder[data-status="A"] .tankCylinderCap,
+.tankCylinderCap[data-status="A"],
+.tankCylinder--A .tankCylinderCap {
+    background: linear-gradient(180deg, #56A85A 0%, #2E7D32 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="A"] .tankCylinderBody,
+.tankCylinderBody[data-status="A"],
+.tankCylinder--A .tankCylinderBody {
+    background: linear-gradient(90deg, #1B5E20 0%, #2E7D32 48%, #1B5E20 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="I"] .tankCylinderCap,
+.tankCylinderCap[data-status="I"],
+.tankCylinder--I .tankCylinderCap {
+    background: linear-gradient(180deg, #4FA3F7 0%, #1976D2 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="I"] .tankCylinderBody,
+.tankCylinderBody[data-status="I"],
+.tankCylinder--I .tankCylinderBody {
+    background: linear-gradient(90deg, #1256A8 0%, #1976D2 48%, #1256A8 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="P"] .tankCylinderCap,
+.tankCylinderCap[data-status="P"],
+.tankCylinder--P .tankCylinderCap {
+    background: linear-gradient(180deg, #FF9838 0%, #EF6C00 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="P"] .tankCylinderBody,
+.tankCylinderBody[data-status="P"],
+.tankCylinder--P .tankCylinderBody {
+    background: linear-gradient(90deg, #C55600 0%, #EF6C00 48%, #C55600 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="F"] .tankCylinderCap,
+.tankCylinderCap[data-status="F"],
+.tankCylinder--F .tankCylinderCap {
+    background: linear-gradient(180deg, #EF5350 0%, #D32F2F 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="F"] .tankCylinderBody,
+.tankCylinderBody[data-status="F"],
+.tankCylinder--F .tankCylinderBody {
+    background: linear-gradient(90deg, #B71C1C 0%, #D32F2F 48%, #B71C1C 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="R"] .tankCylinderCap,
+.tankCylinderCap[data-status="R"],
+.tankCylinder--R .tankCylinderCap {
+    background: linear-gradient(180deg, #8E24AA 0%, #6A1B9A 100%) !important;
+}
+
+.tankHtmlCylinder[data-status="R"] .tankCylinderBody,
+.tankCylinderBody[data-status="R"],
+.tankCylinder--R .tankCylinderBody {
+    background: linear-gradient(90deg, #4A148C 0%, #6A1B9A 48%, #4A148C 100%) !important;
+}
+
+.tankMapLabel {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    margin-top: 0.15rem;
+    text-align: center;
+    max-width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tankMapLabel.sapMLnk {
+    text-decoration: none;
+}
+
+.tankMapItemClickable .tankMapLabel.sapMLnk:hover {
+    text-decoration: underline;
+}
+
+.tankStatusDialogContent {
+    min-width: 16rem;
+}
+
+.tankWcTable {
+    width: 100%;
+}
+
+#tankTable {
+    width: 100%;
+}
+
+#tankTable .sapMListTblCell {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    vertical-align: middle;
+}
+
+.tankTableCellNoWrap {
+    white-space: nowrap;
+}
+
+.tankTableTankName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 15rem;
+}
+
+#tankTable .tankTableLevelCell {
+    min-width: 14rem;
+    box-sizing: border-box;
+}
+
+#tankTable .tankTableProgress {
+    min-width: 9.5rem;
+    flex: 1 1 auto;
+}
+
+#tankTable .tankTableProgress .sapMPIIcon,
+#tankTable .tankTableProgress .sapMPIBarEndIcon,
+#tankTable .tankTableProgress .sapUiIcon {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+}
+
+#tankTable .tankTableProgress .sapMPIBar,
+#tankTable .tankTableProgress .sapMPIBarRemaining {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+}
+
+.sapFFCLColumnBegin .sapMPage,
+.sapFFCLColumnMid .sapMPage,
+.tankDetailPage {
+    height: 100%;
+}
+
+.tankDetailPage .sapMPageCont {
+    overflow: auto;
+}
+
+.tankDetailBar {
+    padding-inline: 0.25rem;
+}
+
+.tankDetailSummaryCard {
+    background: #fff;
+    border: 1px solid #c5cdd3;
+    border-radius: 0.75rem;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 0 0.125rem 0 rgba(34, 53, 72, 0.12);
+    box-sizing: border-box;
+}
+
+.tankDetailSummaryHeader {
+    gap: 0.75rem;
+}
+
+.tankDetailSummaryTitleBlock {
+    flex: 1 1 12rem;
+    min-width: 0;
+}
+
+.tankDetailSummaryTitle {
+    margin: 0;
+}
+
+.tankDetailSummaryTitle .sapMTitle {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.tankDetailSummaryMeta {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    display: block;
+}
+
+.tankDetailSummaryAmountBlock {
+    flex: 1 1 10rem;
+    min-width: 8rem;
+    margin-inline: 1rem 0.5rem;
+    text-align: right;
+}
+
+.tankDetailSummaryAmountLabel {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.75rem;
+    margin-bottom: 0.15rem;
+}
+
+.tankDetailSummaryAmountValue .sapMObjectNumberText {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.tankDetailStatusBadge .sapMObjStatus {
+    padding: 0.45rem 0.9rem;
+    border-radius: 2rem;
+    border: 1px solid var(--sapGroup_ContentBorderColor);
+    background: var(--sapList_AlternatingBackground);
+}
+
+.tankDetailStatusBadge .sapMObjStatusText {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tankDetailStatusBadge .sapMObjStatusIcon {
+    font-size: 1rem;
+}
+
+.tankDetailStockGroups {
+    gap: 0.75rem;
+    border-top: 1px solid var(--sapGroup_ContentBorderColor);
+    padding-top: 0.85rem;
+}
+
+.tankDetailStockGroupCard {
+    flex: 1 1 14rem;
+    min-width: 14rem;
+    background: #f5f6f7;
+    border: 1px solid #c5cdd3;
+    border-radius: 0.65rem;
+    padding: 0.75rem 0.9rem;
+    box-sizing: border-box;
+}
+
+.tankDetailStockGroupCardWide {
+    flex: 1.4 1 18rem;
+    min-width: 18rem;
+}
+
+.tankDetailStockGroupTitle {
+    margin: 0;
+    font-weight: 600;
+}
+
+.tankDetailStockGroupFields {
+    gap: 0.45rem;
+}
+
+.tankDetailStockFieldRow {
+    gap: 0.75rem;
+    min-height: 1.75rem;
+}
+
+.tankDetailStockFieldLabel {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.75rem;
+    flex: 0 0 auto;
+}
+
+.tankDetailStockFieldValue {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+}
+
+.tankDetailStockFieldNumber {
+    text-align: right;
+}
+
+.tankDetailStockFieldNumber .sapMObjectNumberText {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.tankDetailStockAmountValue .sapMObjectNumberText {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.tankDetailCountCard {
+    background: #fff;
+    border: 1px solid #c5cdd3;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    box-shadow: 0 0 0.125rem 0 rgba(34, 53, 72, 0.12);
+    box-sizing: border-box;
+}
+
+.tankDetailCountHeader {
+    gap: 0.25rem;
+}
+
+.tankDetailCountHeader .sapMTitle {
+    margin: 0;
+}
+
+.tankDetailCountIcon {
+    color: var(--sapContent_IconColor);
+    font-size: 1rem;
+}
+
+.tankDetailCountBody {
+    gap: 0.65rem 1rem;
+}
+
+.tankDetailCountItem {
+    flex: 1 1 8rem;
+    min-width: 8rem;
+    background: #f5f6f7;
+    border: 1px solid #c5cdd3;
+    border-radius: 0.5rem;
+    padding: 0.65rem 0.75rem;
+    box-sizing: border-box;
+}
+
+.tankDetailCountLabel {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+}
+
+.tankDetailCountValue {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    word-break: break-word;
+}
+
+.tankDetailTopSection {
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.tankDetailMainCol {
+    flex: 1 1 18rem;
+    min-width: 18rem;
+}
+
+.tankDetailViewportCard {
+    flex: 0 0 20rem;
+    width: 20rem;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid #c5cdd3;
+    border-radius: 0.75rem;
+    padding: 0.65rem;
+    box-shadow: 0 0 0.125rem 0 rgba(34, 53, 72, 0.12);
+    box-sizing: border-box;
+}
+
+.tankDetailViewportHeader {
+    gap: 0.35rem;
+}
+
+.tankDetailViewportHeader .sapMTitle {
+    margin: 0;
+}
+
+.tankDetailViewportHeaderRight {
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.tankDetailViewportHint {
+    color: var(--sapContent_LabelColor);
+    font-size: 0.7rem;
+    line-height: 1.35;
+    display: block;
+}
+
+.tankDetailViewport {
+    border: 1px solid var(--sapGroup_ContentBorderColor);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: linear-gradient(180deg, #e8edf2 0%, #d2dae3 100%);
+    min-height: 260px;
+    height: 260px;
+}
+
+.tankDetailViewportCard .drawerToolbarCollapsed {
+    min-height: 0;
+}
+
+.tankDetailViewportCard .drawerToolbarExpanded {
+    max-height: 2.75rem;
+}
+
+.tankDetailMeasureButton {
+    justify-content: center;
+}
+
+.tankDetailActionButtons {
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.tankDetailActionButton {
+    justify-content: center;
+}
+
+.tankInventoryMeasureSection {
+    gap: 0.35rem;
+}
+
+.tankInventoryMeasureSectionTitle {
+    margin-bottom: 0.15rem;
+}
+
+.tankInventoryMeasureDialog .sapMDialogSection {
+    padding-top: 0;
+}
+
+.tankInventoryMeasureOutput input {
+    font-weight: 600;
+    color: var(--sapTextColor);
+}
+
+.tankInventoryMeasureFormulaPanel .sapMPanelContent {
+    padding-top: 0.25rem;
+}
+
+.tankInventoryMeasureFormulaBlock {
+    display: block;
+    white-space: pre-line;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 0.72rem;
+    line-height: 1.55;
+    word-break: break-word;
+}
+
+.tankDetailLevelBar {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tankDetailLevelBar .sapMPIBar {
+    height: 0.85rem;
+}
+
+.tankDetailLevelBar .sapMPIIcon,
+.tankDetailLevelBar .sapMPIBarEndIcon,
+.tankDetailLevelBar .sapUiIcon {
+    display: none !important;
+}
+

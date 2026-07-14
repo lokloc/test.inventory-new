@@ -1,0 +1,326 @@
+<mvc:View
+    controllerName="test.t1.test.inventory.controller.Tank"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    displayBlock="true">
+
+    <tnt:ToolPage id="tankToolPage" class="tankToolPageRoot">
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Button
+                    id="tankNavBack"
+                    icon="sap-icon://nav-back"
+                    type="Transparent"
+                    tooltip="뒤로"
+                    press="onNavBack"/>
+                <Title text="{i18n>appHeaderTitle}" level="H4"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://search" type="Transparent" tooltip="Search"/>
+                <Button icon="sap-icon://bell" type="Transparent" tooltip="Notifications">
+                    <customData>
+                        <BadgeCustomData key="badge" value="3" visible="true"/>
+                    </customData>
+                </Button>
+                <Button icon="sap-icon://person-placeholder" type="Transparent" tooltip="Profile"/>
+            </tnt:ToolHeader>
+        </tnt:header>
+
+        <tnt:sideContent>
+            <tnt:SideNavigation
+                id="tankSideNavigation"
+                selectedKey="{tank>/selectedNavKey}">
+                <tnt:NavigationList>
+                    <tnt:NavigationListItem text="Oleum" icon="sap-icon://home" key="home" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="재고 실사" icon="sap-icon://inspection" key="audit" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="재고 이동" icon="sap-icon://shipping-status" key="transfer" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="실사 내역" icon="sap-icon://history" key="auditHistory" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="이동 내역" icon="sap-icon://activity-items" key="transferHistory" select="onSideNavItemSelect"/>
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+            <Page
+                id="tankPage"
+                showHeader="false"
+                backgroundDesign="List"
+                busy="{tank>/busy}"
+                busyIndicatorDelay="0">
+
+                <content>
+                    <VBox class="sapUiSmallMargin tankPageContent">
+                        <Breadcrumbs currentLocationText="{= ${tank>/plant/plantName} || ${tank>/plant/werks} }">
+                            <Link text="Oleum" press="onHomeBreadcrumbPress"/>
+                        </Breadcrumbs>
+
+                        <VBox class="tankPlantHeaderSection sapUiSmallMarginTop sapUiTinyMarginBottom">
+                            <VBox class="tankPlantHeaderBlock">
+                                <Title
+                                    text="{= ${tank>/plant/werks} + ' - ' + ${tank>/plant/plantName} }"
+                                    level="H2"
+                                    class="tankPlantTitle"/>
+                                <Text text="{tank>/plant/location}" class="tankPlantLocation sapUiTinyMarginTop"/>
+                            </VBox>
+
+                            <HBox
+                                id="zoneDonutRow"
+                                wrap="Wrap"
+                                alignItems="Stretch"
+                                class="tankZoneDonutRow"/>
+                        </VBox>
+
+                        <IconTabBar
+                            id="tankTabBar"
+                            selectedKey="{tank>/selectedTab}"
+                            select="onTabSelect"
+                            class="sapUiSmallMarginBottom"
+                            expandable="false">
+                            <items>
+                                <IconTabFilter text="개요" key="overview"/>
+                                <IconTabFilter text="탱크 현황" key="tankStatus"/>
+                                <IconTabFilter text="실사" key="audit"/>
+                                <IconTabFilter text="이동" key="transfer"/>
+                                <IconTabFilter text="알람" key="alarm"/>
+                            </items>
+                        </IconTabBar>
+
+                        <VBox visible="{= ${tank>/selectedTab} === 'tankStatus' }">
+                            <OverflowToolbar class="sapUiTinyMarginBottom">
+                                <SegmentedButton
+                                    selectedKey="{tank>/viewMode}"
+                                    selectionChange="onViewModeChange">
+                                    <items>
+                                        <SegmentedButtonItem key="map" text="지도" icon="sap-icon://map"/>
+                                        <SegmentedButtonItem key="list" text="목록" icon="sap-icon://list"/>
+                                    </items>
+                                </SegmentedButton>
+                                <Button
+                                    text="상태 정의"
+                                    icon="sap-icon://legend"
+                                    type="Transparent"
+                                    press="onStatusLegendPress"
+                                    visible="{= ${tank>/viewMode} === 'map' }"
+                                    class="sapUiTinyMarginBegin"/>
+                                <ToolbarSpacer/>
+                                <Label text="탱크 구간" class="sapUiTinyMarginEnd"/>
+                                <Select
+                                    selectedKey="{tank>/areaFilter}"
+                                    change="onAreaFilterChange"
+                                    width="10rem">
+                                    <items>
+                                        <core:Item key="ALL" text="전체"/>
+                                        <core:Item key="1000" text="원유 탱크"/>
+                                        <core:Item key="2000" text="반제품 탱크"/>
+                                        <core:Item key="3000" text="완제품 탱크"/>
+                                    </items>
+                                </Select>
+                                <SearchField
+                                    width="16rem"
+                                    value="{tank>/search}"
+                                    placeholder="탱크 번호"
+                                    search="onSearchChange"
+                                    liveChange="onSearchChange"/>
+                                <Button
+                                    text="실사 생성"
+                                    type="Emphasized"
+                                    icon="sap-icon://create"
+                                    press="onCreateAuditPress"/>
+                                <Button
+                                    icon="sap-icon://refresh"
+                                    type="Transparent"
+                                    tooltip="새로고침"
+                                    press="onRefreshPress"/>
+                            </OverflowToolbar>
+
+                            <Panel
+                                headerText="{= (${tank>/plant/plantName} || ${tank>/plant/werks}) + ' 탱크 맵' }"
+                                expandable="false"
+                                visible="{= ${tank>/viewMode} === 'map' }"
+                                class="sapUiSmallMarginBottom">
+                                <content>
+                                    <VBox id="tankMapCanvas" width="100%" class="tankMapCanvas">
+                                        <VBox
+                                            items="{
+                                                path: 'tank>/tankAreas',
+                                                templateShareable: false
+                                            }"
+                                            class="tankMapZones">
+                                            <items>
+                                                <VBox class="tankZoneBlock">
+                                                    <Title text="{tank>areaLabel}" level="H5"/>
+                                                    <Text
+                                                        text="{tank>areaRange}"
+                                                        class="tankZoneRange"/>
+                                                    <VBox
+                                                        items="{
+                                                            path: 'tank>rows',
+                                                            templateShareable: false
+                                                        }"
+                                                        class="sapUiTinyMarginTop">
+                                                        <items>
+                                                            <HBox
+                                                                items="{
+                                                                    path: 'tank>tanks',
+                                                                    templateShareable: false
+                                                                }"
+                                                                justifyContent="SpaceBetween"
+                                                                alignItems="Start"
+                                                                class="tankZoneRow">
+                                                                <items>
+                                                                    <VBox
+                                                                        alignItems="Center"
+                                                                        class="{= ${tank>isEmpty} ? 'tankMapItem tankMapItemEmpty' : 'tankMapItem tankMapItemClickable' }"
+                                                                        visible="{= !${tank>isEmpty} }">
+                                                                        <core:HTML
+                                                                            preferDOM="true"
+                                                                            sanitizeContent="false"
+                                                                            content="{tank>cylinderHtml}"/>
+                                                                        <Link
+                                                                            text="{tank>tankId}"
+                                                                            press="onTankMapItemPress"
+                                                                            class="tankMapLabel"/>
+                                                                    </VBox>
+                                                                </items>
+                                                            </HBox>
+                                                        </items>
+                                                    </VBox>
+                                                </VBox>
+                                            </items>
+                                        </VBox>
+                                    </VBox>
+                                </content>
+                            </Panel>
+
+                            <Panel
+                                expandable="false"
+                                visible="{= ${tank>/viewMode} === 'map' || ${tank>/viewMode} === 'list' }">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="{= '탱크 목록 (' + ${tank>/pagination/totalItems} + ')' }" level="H4"/>
+                                        <ToolbarSpacer/>
+                                        <Button icon="sap-icon://filter" type="Transparent" tooltip="필터"/>
+                                        <Button icon="sap-icon://action-settings" type="Transparent" tooltip="컬럼 설정"/>
+                                        <Button icon="sap-icon://excel-attachment" type="Transparent" tooltip="엑셀 다운로드"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <content>
+                                    <Table
+                                        id="tankTable"
+                                        items="{tank>/displayTanks}"
+                                        mode="None"
+                                        noDataText="탱크 데이터가 없습니다."
+                                        class="sapUiTinyMarginTop">
+                                        <columns>
+                                            <Column width="5.5rem"><Text text="탱크 번호"/></Column>
+                                            <Column width="15rem"><Text text="탱크명"/></Column>
+                                            <Column width="6rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline"><Text text="제품"/></Column>
+                                            <Column width="9.5rem" hAlign="End" demandPopin="true" minScreenWidth="Desktop"><Text text="저장용량(BBL)"/></Column>
+                                            <Column width="9.5rem" hAlign="End" demandPopin="true" minScreenWidth="Desktop"><Text text="현재재고(BBL)"/></Column>
+                                            <Column demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline" width="15rem"><Text text="레벨(%)"/></Column>
+                                            <Column width="6.5rem" demandPopin="true" minScreenWidth="Desktop"><Text text="온도(°C)"/></Column>
+                                            <Column width="10rem" demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline"><Text text="상태"/></Column>
+                                            <Column width="7.5rem" demandPopin="true" minScreenWidth="Desktop"><Text text="최종 실사일"/></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem type="Active" press="onTankRowClick">
+                                                <cells>
+                                                    <Text text="{tank>tankId}" class="tankTableCellNoWrap"/>
+                                                    <Text text="{tank>tankName}" wrapping="false" class="tankTableTankName"/>
+                                                    <Text text="{tank>product}" class="tankTableCellNoWrap"/>
+                                                    <ObjectNumber
+                                                        number="{
+                                                            path: 'tank>capacity',
+                                                            type: 'sap.ui.model.type.Float',
+                                                            formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                                                        }"
+                                                        unit="BBL"/>
+                                                    <ObjectNumber
+                                                        number="{
+                                                            path: 'tank>currentInventory',
+                                                            type: 'sap.ui.model.type.Float',
+                                                            formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                                                        }"
+                                                        unit="BBL"/>
+                                                    <HBox alignItems="Center" width="100%" class="tankTableLevelCell">
+                                                        <Text text="{tank>levelText}" width="3.75rem" class="sapUiTinyMarginEnd"/>
+                                                        <ProgressIndicator
+                                                            percentValue="{tank>level}"
+                                                            displayValue=""
+                                                            showValue="false"
+                                                            width="9rem"
+                                                            state="{tank>levelState}"
+                                                            class="tankTableProgress"/>
+                                                    </HBox>
+                                                    <Text text="{tank>temperatureText}" class="tankTableCellNoWrap"/>
+                                                    <ObjectStatus
+                                                        text="{tank>status}"
+                                                        state="{tank>statusState}"
+                                                        icon="{tank>statusIcon}"/>
+                                                    <Text text="{tank>lastCountDate}" class="tankTableCellNoWrap"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                    <OverflowToolbar class="sapUiTinyMarginTop tankTablePager">
+                                        <ToolbarSpacer/>
+                                        <Button
+                                            icon="sap-icon://close-command-field"
+                                            type="Transparent"
+                                            tooltip="첫 페이지"
+                                            enabled="{tank>/pagination/hasPrev}"
+                                            press="onTableFirstPage"/>
+                                        <Button
+                                            icon="sap-icon://navigation-left-arrow"
+                                            type="Transparent"
+                                            tooltip="이전 페이지"
+                                            enabled="{tank>/pagination/hasPrev}"
+                                            press="onTablePrevPage"/>
+                                        <Text
+                                            text="{tank>/pagination/rangeText}"
+                                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd"/>
+                                        <Button
+                                            icon="sap-icon://navigation-right-arrow"
+                                            type="Transparent"
+                                            tooltip="다음 페이지"
+                                            enabled="{tank>/pagination/hasNext}"
+                                            press="onTableNextPage"/>
+                                        <Button
+                                            icon="sap-icon://open-command-field"
+                                            type="Transparent"
+                                            tooltip="마지막 페이지"
+                                            enabled="{tank>/pagination/hasNext}"
+                                            press="onTableLastPage"/>
+                                        <ToolbarSeparator/>
+                                        <Label text="페이지당" class="sapUiTinyMarginEnd"/>
+                                        <Select
+                                            selectedKey="{= '' + ${tank>/pagination/pageSize} }"
+                                            change="onTablePageSizeChange"
+                                            width="5.5rem">
+                                            <items>
+                                                <core:Item key="10" text="10"/>
+                                                <core:Item key="25" text="25"/>
+                                                <core:Item key="50" text="50"/>
+                                                <core:Item key="100" text="100"/>
+                                            </items>
+                                        </Select>
+                                    </OverflowToolbar>
+                                </content>
+                            </Panel>
+                        </VBox>
+
+                        <MessageStrip
+                            text="개요, 실사, 이동, 알람 탭은 다음 단계에서 구현됩니다."
+                            visible="{= ${tank>/selectedTab} !== 'tankStatus' }"
+                            type="Information"
+                            showIcon="true"
+                            class="sapUiSmallMarginTop"/>
+                    </VBox>
+                </content>
+            </Page>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

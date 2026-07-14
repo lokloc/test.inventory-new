@@ -1,0 +1,252 @@
+<mvc:View
+    controllerName="test.t1.test.inventory.controller.TankDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:vk="sap.ui.vk"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page
+        id="tankDetailPage"
+        showHeader="false"
+        backgroundDesign="List"
+        busy="{tankDetail>/busy}"
+        busyIndicatorDelay="0"
+        class="tankDetailPage">
+        <customHeader>
+            <Bar class="tankDetailBar">
+                <contentLeft>
+                    <Button
+                        icon="sap-icon://decline"
+                        type="Transparent"
+                        tooltip="닫기"
+                        press="onCloseDetail"/>
+                </contentLeft>
+                <contentMiddle>
+                    <Title text="{tankDetail>/headerTitle}" level="H4"/>
+                </contentMiddle>
+                <contentRight>
+                    <Button
+                        icon="sap-icon://refresh"
+                        type="Transparent"
+                        tooltip="새로고침"
+                        press="onRefresh"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <content>
+            <VBox class="tankDetailContent" width="100%">
+                <Breadcrumbs
+                    currentLocationText="{tankDetail>/headerTitle}"
+                    class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop">
+                    <Link text="Oleum" press="onHomeBreadcrumbPress"/>
+                    <Link text="{tankDetail>/plantName}" press="onPlantBreadcrumbPress"/>
+                </Breadcrumbs>
+                <HBox
+                    class="tankDetailTopSection sapUiSmallMarginBeginEnd sapUiSmallMarginTop sapUiSmallMarginBottom"
+                    alignItems="Start"
+                    justifyContent="SpaceBetween"
+                    wrap="Wrap">
+                    <VBox class="tankDetailMainCol">
+                        <VBox class="tankDetailSummaryCard">
+                            <HBox
+                                class="tankDetailSummaryHeader"
+                                alignItems="Center"
+                                justifyContent="SpaceBetween"
+                                wrap="Wrap">
+                                <VBox class="tankDetailSummaryTitleBlock">
+                                    <Title text="{tankDetail>/tankName}" level="H2" class="tankDetailSummaryTitle"/>
+                                    <Text
+                                        text="{tankDetail>/tankId} · {tankDetail>/areaLabel}"
+                                        class="tankDetailSummaryMeta sapUiTinyMarginTop"/>
+                                    <Text
+                                        text="{tankDetail>/plantLabel}"
+                                        class="tankDetailSummaryMeta"/>
+                                </VBox>
+                                <VBox class="tankDetailSummaryAmountBlock" alignItems="End">
+                                    <Label text="재고금액" class="tankDetailSummaryAmountLabel"/>
+                                    <ObjectNumber
+                                        number="{
+                                            path: 'tankDetail>/stockSalk3',
+                                            type: 'sap.ui.model.type.Float',
+                                            formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                                        }"
+                                        unit="{tankDetail>/stockWaers}"
+                                        emphasized="true"
+                                        class="tankDetailSummaryAmountValue"/>
+                                </VBox>
+                                <ObjectStatus
+                                    text="{tankDetail>/statusText}"
+                                    state="{tankDetail>/statusState}"
+                                    icon="{tankDetail>/statusIcon}"
+                                    class="tankDetailStatusBadge"/>
+                            </HBox>
+
+                            <HBox wrap="Wrap" class="tankDetailStockGroups sapUiSmallMarginTop">
+                                <VBox class="tankDetailStockGroupCard tankDetailStockGroupCardWide">
+                                    <Title text="기본 및 품질 정보" level="H6" class="tankDetailStockGroupTitle"/>
+                                    <VBox class="tankDetailStockGroupFields sapUiTinyMarginTop">
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="플랜트" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockWerks}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="탱크번호" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockLgort}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="품질번호" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockBatchId}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="API비중" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockApiGText}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="황 함유량" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockSulfCText}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+
+                                <VBox class="tankDetailStockGroupCard tankDetailStockGroupCardWide">
+                                    <Title text="재고 정보" level="H6" class="tankDetailStockGroupTitle"/>
+                                    <VBox class="tankDetailStockGroupFields sapUiTinyMarginTop">
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="자재" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockMatnr}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="실제 수량" class="tankDetailStockFieldLabel"/>
+                                            <ObjectNumber
+                                                number="{
+                                                    path: 'tankDetail>/stockQuantity',
+                                                    type: 'sap.ui.model.type.Float',
+                                                    formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                                                }"
+                                                unit="BBL"
+                                                emphasized="true"
+                                                class="tankDetailStockFieldNumber"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="미보정 수량" class="tankDetailStockFieldLabel"/>
+                                            <ObjectNumber
+                                                number="{
+                                                    path: 'tankDetail>/stockQty15',
+                                                    type: 'sap.ui.model.type.Float',
+                                                    formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                                                }"
+                                                unit="BBL"
+                                                class="tankDetailStockFieldNumber"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="온도" class="tankDetailStockFieldLabel"/>
+                                            <Text text="{tankDetail>/stockTempText}" class="tankDetailStockFieldValue"/>
+                                        </HBox>
+                                        <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                                            <Label text="가용재고" class="tankDetailStockFieldLabel"/>
+                                            <ObjectNumber
+                                                number="{
+                                                    path: 'tankDetail>/stockLabst',
+                                                    type: 'sap.ui.model.type.Float',
+                                                    formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                                                }"
+                                                unit="BBL"
+                                                emphasized="true"
+                                                class="tankDetailStockFieldNumber"/>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <VBox class="tankDetailCountCard sapUiSmallMarginTop">
+                            <HBox alignItems="Center" class="tankDetailCountHeader">
+                                <core:Icon src="sap-icon://inspection" class="tankDetailCountIcon sapUiTinyMarginEnd"/>
+                                <Title text="최신 실사 정보" level="H5"/>
+                            </HBox>
+                            <HBox wrap="Wrap" class="tankDetailCountBody sapUiSmallMarginTop">
+                                <VBox class="tankDetailCountItem">
+                                    <Label text="실사 담당" class="tankDetailCountLabel"/>
+                                    <Text text="{tankDetail>/countUser}" class="tankDetailCountValue"/>
+                                </VBox>
+                                <VBox class="tankDetailCountItem">
+                                    <Label text="실사 일자" class="tankDetailCountLabel"/>
+                                    <Text text="{tankDetail>/countDate}" class="tankDetailCountValue"/>
+                                </VBox>
+                                <VBox class="tankDetailCountItem">
+                                    <Label text="실사 시각" class="tankDetailCountLabel"/>
+                                    <Text text="{tankDetail>/countTime}" class="tankDetailCountValue"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox class="tankDetailViewportCard">
+                        <HBox
+                            alignItems="Center"
+                            justifyContent="SpaceBetween"
+                            wrap="Wrap"
+                            class="tankDetailViewportHeader sapUiTinyMarginBottom">
+                            <Title text="3D VIEW" level="H5"/>
+                            <HBox alignItems="Center" class="tankDetailViewportHeaderRight">
+                                <Button
+                                    text="{= ${tankDetail>/interiorViewActive} ? '탱크 쉘 조립' : '내부 보기' }"
+                                    icon="{= ${tankDetail>/interiorViewActive} ? 'sap-icon://shield' : 'sap-icon://inspect' }"
+                                    type="Transparent"
+                                    enabled="{= !${tankDetail>/shellPeelBusy} }"
+                                    tooltip="{= ${tankDetail>/interiorViewActive} ? '탱크 쉘을 다시 입힙니다' : '탱크 쉘을 벗기고 내부를 봅니다' }"
+                                    press="onToggleInteriorViewPress"
+                                    class="sapUiTinyMarginEnd"/>
+                                <Button
+                                    icon="{= ${tankDetail>/viewportToolbarExpanded} ? 'sap-icon://slim-arrow-up' : 'sap-icon://slim-arrow-down' }"
+                                    type="Transparent"
+                                    tooltip="{= ${tankDetail>/viewportToolbarExpanded} ? '도구 바 숨기기' : '도구 바 보기' }"
+                                    press="onToggleViewportToolbar"/>
+                            </HBox>
+                        </HBox>
+                        <vk:Viewport
+                            id="tankViewport"
+                            width="100%"
+                            height="260px"
+                            class="tankDetailViewport"/>
+                        <ProgressIndicator
+                            percentValue="{tankDetail>/level}"
+                            displayValue="{tankDetail>/levelText}"
+                            state="{tankDetail>/levelState}"
+                            width="100%"
+                            class="tankDetailLevelBar sapUiTinyMarginTop"/>
+                        <Text
+                            text="{= ${tankDetail>/interiorViewActive} ? '쉘 벗김 · 내부 보기 중 · 버튼으로 쉘 복원' : '드래그 회전 · 스크롤 확대 · 내부 보기 버튼으로 쉘 벗기기' }"
+                            class="tankDetailViewportHint sapUiTinyMarginTop"/>
+                        <Button
+                            id="inventoryMeasureButton"
+                            text="재고 실측"
+                            icon="sap-icon://inspection"
+                            type="Emphasized"
+                            press="onInventoryMeasurePress"
+                            width="100%"
+                            class="tankDetailMeasureButton sapUiSmallMarginTop"/>
+                        <VBox class="tankDetailActionButtons sapUiSmallMarginTop">
+                            <Button
+                                text="탱크 사용 이력"
+                                icon="sap-icon://history"
+                                type="Default"
+                                press="onTankUsageHistoryPress"
+                                width="100%"
+                                class="tankDetailActionButton"/>
+                            <Button
+                                text="Loss 이력 조회"
+                                icon="sap-icon://filter-analytics"
+                                type="Default"
+                                press="onLossHistoryPress"
+                                width="100%"
+                                class="tankDetailActionButton"/>
+                        </VBox>
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

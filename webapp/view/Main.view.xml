@@ -1,0 +1,237 @@
+<mvc:View
+    controllerName="test.t1.test.inventory.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    displayBlock="true">
+
+    <tnt:ToolPage id="toolPage">
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Title text="{i18n>appHeaderTitle}" level="H4"/>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://search" type="Transparent" tooltip="Search"/>
+                <Button icon="sap-icon://bell" type="Transparent" tooltip="Notifications">
+                    <customData>
+                        <BadgeCustomData key="badge" value="3" visible="true"/>
+                    </customData>
+                </Button>
+                <Button icon="sap-icon://person-placeholder" type="Transparent" tooltip="Profile"/>
+            </tnt:ToolHeader>
+        </tnt:header>
+
+        <tnt:sideContent>
+            <tnt:SideNavigation
+                id="sideNavigation"
+                selectedKey="{home>/selectedNavKey}">
+                <tnt:NavigationList>
+                    <tnt:NavigationListItem text="Oleum" icon="sap-icon://home" key="home" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="재고 실사" icon="sap-icon://inspection" key="audit" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="재고 이동" icon="sap-icon://shipping-status" key="transfer" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="실사 내역" icon="sap-icon://history" key="auditHistory" select="onSideNavItemSelect"/>
+                    <tnt:NavigationListItem text="이동 내역" icon="sap-icon://activity-items" key="transferHistory" select="onSideNavItemSelect"/>
+                    <!-- <tnt:NavigationListItem text="마스터 데이터" icon="sap-icon://database" key="master"/> -->
+                    <!-- <tnt:NavigationListItem text="설정" icon="sap-icon://action-settings" key="settings"/> -->
+                </tnt:NavigationList>
+                <tnt:fixedItem>
+                    <tnt:NavigationList>
+                        <tnt:NavigationListItem
+                            text="접기"
+                            icon="sap-icon://collapse-group"
+                            select="onSideNavCollapse"/>
+                    </tnt:NavigationList>
+                </tnt:fixedItem>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+            <Page
+                id="homePage"
+                showHeader="false"
+                backgroundDesign="List">
+
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Breadcrumbs currentLocationText="Oleum">
+                            <!-- <Link text="Home"/> -->
+                        </Breadcrumbs>
+
+                        <Title
+                            text="재고 실사 및 이동"
+                            level="H2"
+                            class="sapUiTinyMarginTop sapUiSmallMarginBottom"/>
+
+                        <!-- 회사 정보 -->
+                        <Panel
+                            headerText="회사 정보"
+                            expandable="false"
+                            class="sapUiSmallMarginBottom">
+                            <content>
+                                <layout:Grid
+                                    defaultSpan="L3 M6 S12"
+                                    hSpacing="1"
+                                    vSpacing="1"
+                                    class="sapUiSmallMargin">
+                                    <layout:content>
+                                        <VBox>
+                                            <Label text="회사코드" design="Bold"/>
+                                            <Text text="{home>/company/bukrs}"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="회사명" design="Bold"/>
+                                            <Text text="{home>/company/butxt}"/>
+                                        </VBox>
+                                        <VBox>
+                                            <Label text="통화" design="Bold"/>
+                                            <Text text="{home>/company/waers}"/>
+                                        </VBox>
+
+                                    </layout:content>
+                                </layout:Grid>
+                            </content>
+                        </Panel>
+
+                        <!-- 플랜트 목록 -->
+                        <Panel
+                            headerText="플랜트 목록"
+                            expandable="false">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="플랜트 목록" level="H4"/>
+                                    <ToolbarSpacer/>
+                                    <SegmentedButton
+                                        id="viewModeToggle"
+                                        selectedKey="{home>/viewMode}"
+                                        selectionChange="onViewModeChange">
+                                        <items>
+                                            <SegmentedButtonItem key="grid" icon="sap-icon://grid"/>
+                                            <SegmentedButtonItem key="list" icon="sap-icon://list"/>
+                                        </items>
+                                    </SegmentedButton>
+                                    <!-- <Button
+                                        icon="sap-icon://refresh"
+                                        type="Transparent"
+                                        tooltip="새로고침"
+                                        press="onRefreshPress"/> -->
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <content>
+                                <VBox visible="{= ${home>/viewMode} === 'grid' }">
+                                    <f:GridContainer
+                                        id="plantGrid"
+                                        items="{/plant_masterSet}">
+                                        <f:layout>
+                                            <f:GridContainerSettings
+                                                rowSize="5rem"
+                                                columnSize="5rem"
+                                                gap="0.5rem"/>
+                                        </f:layout>
+                                        <f:Card class="sapUiTinyMarginBottom">
+                                            <f:layoutData>
+                                                <f:GridContainerItemLayoutData columns="6" minRows="2"/>
+                                            </f:layoutData>
+                                            <f:content>
+                                                <HBox
+                                                    alignItems="Center"
+                                                    class="sapUiSmallMargin"
+                                                    renderType="Bare">
+                                                    <core:Icon
+                                                        src="sap-icon://factory-2"
+                                                        size="3rem"
+                                                        color="#0854A0"
+                                                        class="sapUiSmallMarginEnd"/>
+                                                    <VBox class="sapUiSmallMarginEnd" width="100%">
+                                                        <Title text="{Werks}" level="H5"/>
+                                                        <Title text="{Name1}" level="H6"/>
+                                                        <Text text="{Stras}"/>
+                                                        <HBox class="sapUiTinyMarginTop" wrap="Wrap">
+                                                            <VBox class="sapUiSmallMarginEnd">
+                                                                <Label text="저장용량" design="Bold"/>
+                                                                <ObjectNumber
+                                                                    number="{
+                                                                        path: 'home>capacity',
+                                                                        type: 'sap.ui.model.type.Float',
+                                                                        formatOptions: { groupingEnabled: true, maxFractionDigits: 0 }
+                                                                    }"
+                                                                    unit="{home>capacityUnit}"/>
+                                                            </VBox>
+                                                            <VBox>
+                                                                <Label text="현재재고" design="Bold"/>
+                                                                <ObjectNumber
+                                                                    number="{
+                                                                        path: 'home>currentInventory',
+                                                                        type: 'sap.ui.model.type.Float',
+                                                                        formatOptions: { groupingEnabled: true, maxFractionDigits: 0 }
+                                                                    }"
+                                                                    unit="{home>capacityUnit}"
+                                                                    state="{= ${home>currentInventory} / ${home>capacity} &lt; 0.3 ? 'Error' : ${home>currentInventory} / ${home>capacity} &lt; 0.7 ? 'Warning' : 'Success' }"/>
+                                                            </VBox>
+                                                        </HBox>
+                                                    </VBox>
+                                                    <Button
+                                                        icon="sap-icon://navigation-right-arrow"
+                                                        type="Emphasized"
+                                                        tooltip="플랜트 상세"
+                                                        press="onPlantNavigate"/>
+                                                </HBox>
+                                            </f:content>
+                                        </f:Card>
+                                    </f:GridContainer>
+                                </VBox>
+
+                                <VBox visible="{= ${home>/viewMode} === 'list' }">
+                                    <Table
+                                        id="plantTable"
+                                        items="{/plant_masterSet}"
+                                        growing="true"
+                                        growingScrollToLoad="false"
+                                        mode="None"
+                                        class="sapUiTinyMarginTop">
+                                        <columns>
+                                            <Column><Text text="플랜트 ID"/></Column>
+                                            <Column><Text text="플랜트명"/></Column>
+                                            <Column><Text text="위치"/></Column>
+                                            <Column hAlign="End"><Text text="저장용량"/></Column>
+                                            <Column hAlign="End"><Text text="현재재고"/></Column>
+                                            <Column width="3rem"/>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem type="Navigation" press="onPlantNavigate">
+                                                <cells>
+                                                    <Text text="{Werks}"/>
+                                                    <Text text="{Name1}"/>
+                                                    <Text text="{Land1}"/>
+                                                    <ObjectNumber
+                                                        number="{
+                                                            path: 'home>capacity',
+                                                            type: 'sap.ui.model.type.Float',
+                                                            formatOptions: { groupingEnabled: true, maxFractionDigits: 0 }
+                                                        }"
+                                                        unit="{home>capacityUnit}"/>
+                                                    <ObjectNumber
+                                                        number="{
+                                                            path: 'home>currentInventory',
+                                                            type: 'sap.ui.model.type.Float',
+                                                            formatOptions: { groupingEnabled: true, maxFractionDigits: 0 }
+                                                        }"
+                                                        unit="{home>capacityUnit}"/>
+                                                    <Button
+                                                        icon="sap-icon://navigation-right-arrow"
+                                                        type="Transparent"
+                                                        press="onPlantNavigate"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </VBox>
+                            </content>
+                        </Panel>
+                    </VBox>
+                </content>
+            </Page>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

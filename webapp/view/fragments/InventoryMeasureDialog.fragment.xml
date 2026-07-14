@@ -1,0 +1,109 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        id="inventoryMeasureDialog"
+        title="재고 실측"
+        contentWidth="32rem"
+        draggable="true"
+        resizable="true"
+        class="tankInventoryMeasureDialog">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <MessageStrip
+                    text="계기판에 찍혀있는 수량을 입력하시면 온도와 API 비중을 계산하여 보정 수량을 계산합니다."
+                    type="Information"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom"/>
+
+                <VBox class="tankInventoryMeasureSection">
+                    <Title text="탱크 정보" level="H6" class="tankInventoryMeasureSectionTitle"/>
+                    <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                        <Label text="탱크 번호" class="tankDetailStockFieldLabel"/>
+                        <Text text="{tankDetail>/tankId}" class="tankDetailStockFieldValue"/>
+                    </HBox>
+                    <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                        <Label text="탱크명" class="tankDetailStockFieldLabel"/>
+                        <Text text="{tankDetail>/tankName}" class="tankDetailStockFieldValue"/>
+                    </HBox>
+                    <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                        <Label text="시스템 재고" class="tankDetailStockFieldLabel"/>
+                        <ObjectNumber
+                            number="{
+                                path: 'tankDetail>/stockQuantity',
+                                type: 'sap.ui.model.type.Float',
+                                formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                            }"
+                            unit="BBL"
+                            class="tankDetailStockFieldNumber"/>
+                    </HBox>
+                    <HBox class="tankDetailStockFieldRow" justifyContent="SpaceBetween" alignItems="Center">
+                        <Label text="API 비중" class="tankDetailStockFieldLabel"/>
+                        <Text text="{tankDetail>/stockApiGText}" class="tankDetailStockFieldValue"/>
+                    </HBox>
+                </VBox>
+
+                <VBox class="tankInventoryMeasureSection sapUiSmallMarginTop">
+                    <Title text="실측 입력" level="H6" class="tankInventoryMeasureSectionTitle"/>
+                    <Label text="실측 수량 (BBL)" required="true" class="sapUiTinyMarginTop"/>
+                    <Input
+                        value="{
+                            path: 'tankDetail>/measurement/measuredQuantity',
+                            type: 'sap.ui.model.type.Float',
+                            formatOptions: { groupingEnabled: false, maxFractionDigits: 3, minFractionDigits: 3 }
+                        }"
+                        placeholder="실측한 수량을 입력하세요"
+                        liveChange="onInventoryMeasureLiveChange"
+                        change="onInventoryMeasureLiveChange"
+                        width="100%"/>
+                    <Label text="온도 (°C)" class="sapUiTinyMarginTop"/>
+                    <Input
+                        value="{
+                            path: 'tankDetail>/measurement/temperature',
+                            type: 'sap.ui.model.type.Float',
+                            formatOptions: { groupingEnabled: false, maxFractionDigits: 1, minFractionDigits: 1 }
+                        }"
+                        placeholder="실측 온도"
+                        liveChange="onInventoryMeasureLiveChange"
+                        change="onInventoryMeasureLiveChange"
+                        width="100%"/>
+                    <Button
+                        text="계산"
+                        icon="sap-icon://simulate"
+                        type="Emphasized"
+                        press="onInventoryMeasureCalculate"
+                        width="100%"
+                        class="sapUiSmallMarginTop"/>
+                    <Label text="보정 수량(BBL)" class="sapUiTinyMarginTop"/>
+                    <Input
+                        value="{
+                            path: 'tankDetail>/measurement/calculatedQuantity',
+                            type: 'sap.ui.model.type.Float',
+                            formatOptions: { groupingEnabled: true, maxFractionDigits: 3, minFractionDigits: 3 }
+                        }"
+                        editable="false"
+                        width="100%"
+                        class="tankInventoryMeasureOutput"/>
+                    <Panel
+                        headerText="온도부피보정 계산식 확인"
+                        expandable="true"
+                        expanded="false"
+                        visible="{tankDetail>/measurement/formulaVisible}"
+                        class="tankInventoryMeasureFormulaPanel sapUiSmallMarginTop">
+                        <content>
+                            <Text
+                                text="{tankDetail>/measurement/formulaText}"
+                                class="tankInventoryMeasureFormulaBlock"/>
+                        </content>
+                    </Panel>
+                </VBox>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="실측 저장" type="Emphasized" press="onInventoryMeasureConfirm"/>
+        </beginButton>
+        <endButton>
+            <Button text="취소" press="onInventoryMeasureCancel"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

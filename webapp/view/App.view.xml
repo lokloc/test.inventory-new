@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="test.t1.test.inventory.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f">
+    <f:FlexibleColumnLayout
+        id="layout"
+        layout="{appView>/layout}"
+        backgroundDesign="Solid"/>
+</mvc:View>
